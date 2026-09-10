@@ -2,10 +2,10 @@
 set -e
 
 # CMX Install Script
-# Usage: curl -sSfL https://compressi.us/install.sh | sh
+# Usage: curl -sSfL https://compressi.us/install-nightly.sh | sh
 
 REPO="${CMX_RELEASE_REPO:-administrakt0r/cmx}"
-VERSION="${CMX_VERSION:-v0.1.15-nightly.20260910132738.93d8db060bf1}"
+VERSION="${CMX_VERSION:-v0.1.15-nightly.20260910143358.f29009d6e202}"
 
 if [ -n "${CMX_INSTALL_DIR:-}" ]; then
   INSTALL_DIR="$CMX_INSTALL_DIR"
