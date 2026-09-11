@@ -5,7 +5,7 @@ set -e
 # Usage: curl -sSfL https://compressi.us/install-nightly.sh | sh
 
 REPO="${CMX_RELEASE_REPO:-administrakt0r/cmx}"
-VERSION="${CMX_VERSION:-v0.1.15-nightly.20260910203656.bb0c1913d884}"
+VERSION="${CMX_VERSION:-v0.1.15-nightly.20260911004958.1d4f50e521b5}"
 
 if [ -n "${CMX_INSTALL_DIR:-}" ]; then
   INSTALL_DIR="$CMX_INSTALL_DIR"
@@ -99,6 +99,13 @@ if [ "$DOWNLOAD_SUCCESS" -ne 1 ]; then
   exit 1
 fi
 
+# This is a truthful terminal-native progress result: it reports bytes that
+# were actually written, without a spinner, timer-derived percentage, or a
+# continuously redrawn progress bar. It is equally safe when stdout is piped.
+DOWNLOADED_BYTES="$(wc -c < "${TMP_DIR}/cmx" | tr -d '[:space:]')"
+echo "Downloaded ${DOWNLOADED_BYTES} bytes."
+echo "Verifying release checksum..."
+
 # Verify the downloaded artifact against the release checksum before executing it.
 CHECKSUM_URL="https://github.com/${REPO}/releases/download/${VERSION}/SHA256SUMS"
 if [ "$VERSION" = "latest" ]; then
@@ -146,6 +153,7 @@ fi
 CMX_VERSION_STR="$("${TMP_DIR}/cmx" --version)"
 
 # Install
+echo "Installing verified binary..."
 if [ -w "$INSTALL_DIR" ]; then
   mv "${TMP_DIR}/cmx" "${INSTALL_DIR}/cmx"
 else
